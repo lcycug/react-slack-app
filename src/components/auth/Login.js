@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import {
   Grid,
   Header,
@@ -11,8 +12,26 @@ import {
 } from "semantic-ui-react";
 
 import "../../App.css";
+import firebase from "../../firebase";
+import { setLoggedInUser } from "../../actions";
 
 const Login = props => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = event => {
+    event.preventDefault();
+    setLoading(true);
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(loggedUser => {
+        setLoading(false);
+        props.setLoggedInUser(loggedUser.user);
+        props.history.push("/");
+      });
+  };
   return (
     <div>
       <Grid textAlign="center" verticalAlign="middle" className="app">
@@ -26,9 +45,11 @@ const Login = props => {
               <Form.Input
                 type="text"
                 iconPosition="left"
-                placeholder="Username"
-                name="username"
-                icon="user"
+                placeholder="Email"
+                name="email"
+                icon="mail"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
               <Form.Input
                 type="text"
@@ -36,8 +57,16 @@ const Login = props => {
                 icon="lock"
                 iconPosition="left"
                 placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
               />
-              <Button fluid color="blue">
+              <Button
+                loading={loading}
+                disabled={loading}
+                fluid
+                color="blue"
+                onClick={handleLogin}
+              >
                 Login
               </Button>
               <Message>
@@ -56,4 +85,7 @@ const Login = props => {
   );
 };
 
-export default Login;
+export default connect(
+  null,
+  { setLoggedInUser }
+)(Login);
