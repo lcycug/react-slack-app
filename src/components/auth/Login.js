@@ -13,13 +13,13 @@ import {
 
 import "../../App.css";
 import firebase from "../../firebase";
-import { setLoggedInUser } from "../../actions";
+import { setUser } from "../../actions";
 
 const Login = props => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const { setUser, history } = props;
   const handleLogin = event => {
     event.preventDefault();
     setLoading(true);
@@ -28,8 +28,8 @@ const Login = props => {
       .signInWithEmailAndPassword(email, password)
       .then(loggedUser => {
         setLoading(false);
-        props.setLoggedInUser(loggedUser.user);
-        props.history.push("/");
+        setUser(loggedUser.user);
+        history.push("/");
       });
   };
   return (
@@ -87,5 +87,5 @@ const Login = props => {
 
 export default connect(
   null,
-  { setLoggedInUser }
+  { setUser }
 )(Login);

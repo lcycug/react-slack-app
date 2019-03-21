@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 
+import PrivateRoute from "./PrivateRoute";
 import store from "./store";
 import App from "./App";
 import Login from "./components/auth/Login";
@@ -17,7 +18,7 @@ import * as serviceWorker from "./serviceWorker";
 
 const Root = withRouter(() => (
   <Switch>
-    <Route exact path="/" component={App} />
+    <PrivateRoute exact path="/" component={App} />
     <Route exact path="/login" component={Login} />
     <Route exact path="/register" component={Register} />
   </Switch>
