@@ -31,17 +31,17 @@ const UserPanel = props => {
                     Signed in as <strong>User</strong>
                   </span>
                 ),
-                disabeld: true
+                disabled: true
               },
               {
                 key: "avatar",
                 text: <span>Change avatar</span>,
-                disabeld: true
+                disabled: true
               },
               {
                 key: "logout",
                 text: <span onClick={handleLogout}>Sign out</span>,
-                disabeld: false
+                disabled: false
               }
             ]}
           />

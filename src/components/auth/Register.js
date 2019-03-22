@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import md5 from "md5";
 import firebase from "../../firebase";
 import {
   Grid,
@@ -24,7 +25,12 @@ const Register = props => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(user => console.log(user))
+      .then(user => {
+        user.user.updateProfile({
+          displayName: username,
+          photoURL: `https://secure.gravatar.com/avatar/${md5(email)}`
+        });
+      })
       .catch(err => console.error(err));
   };
   return (
