@@ -1,12 +1,12 @@
 import React from "react";
-import { Grid, Header, Icon, Dropdown } from "semantic-ui-react";
+import { Grid, Header, Icon, Dropdown, Image } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 import { setUser } from "../../actions";
 import firebase from "../../firebase";
 
 const UserPanel = props => {
-  const { setUser } = props;
+  const { user, setUser } = props;
   const handleLogout = event => {
     firebase.auth().signOut();
     setUser({});
@@ -22,13 +22,18 @@ const UserPanel = props => {
         </Grid.Row>
         <Header style={{ padding: "0.25em" }} as="h4" inverted>
           <Dropdown
-            trigger={<span>User</span>}
+            trigger={
+              <>
+                <Image avatar src={user.photoURL} spaced="right" />
+                <span>{user && user.displayName}</span>
+              </>
+            }
             options={[
               {
                 key: "user",
                 text: (
                   <span>
-                    Signed in as <strong>User</strong>
+                    Signed in as <strong>{user && user.displayName}</strong>
                   </span>
                 ),
                 disabled: true
@@ -51,7 +56,10 @@ const UserPanel = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  user: state.user
+});
 export default connect(
-  null,
+  mapStateToProps,
   { setUser }
 )(UserPanel);
