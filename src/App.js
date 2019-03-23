@@ -8,7 +8,7 @@ import SidePanel from "./components/SidePanel/SidePanel";
 import MetaPanel from "./components/MetaPanel/MetaPanel";
 import Messages from "./components/Messages/Messages";
 
-const App = props => {
+const App = () => {
   return (
     <Grid columns="equal" className="app" style={{ background: "#eee" }}>
       <ColorPanel />
